@@ -3,16 +3,22 @@ import productsModel from "../models/products.js";
 
 export default class productsManager{
 
-    getAll = async (limit) => {
-        let result = await productsModel.find().limit(limit).lean();
-        return result;
+    getAll = async (limit, page, sortOption, filter) => {
+        let options = {
+          limit: limit,
+          page: page,
+          sort: sortOption,
+          lean: true
+        };
+        let totalCount = await productsModel.countDocuments(filter);
+        let result = await productsModel.paginate(filter, options);
+        return { result, totalCount };
+      }
 
-    }
-    getById = async(id) =>{
-
-        let result = await productsModel.findById(id);
+    getById = async (id) => {
+        let result = await productsModel.findOne({ _id: id }).lean();
         return result;
-    }
+      }
 
     addProduct = async(newProduct) =>{
 
