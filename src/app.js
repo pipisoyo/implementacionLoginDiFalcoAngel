@@ -18,7 +18,7 @@ import MongoStore from "connect-mongo";
 
 //const productManager = new localProductManager();
 const app = express();
-const PORT = process.env.PORT || 8080 ;
+const PORT = process.env.PORT || 8080;
 const DB_URL = 'mongodb+srv://backend:wp3pY3V896VQxtfp@ecommerce.zhcscvh.mongodb.net/?retryWrites=true&w=majority&appName=ecommerce';
 const realTimeProducts = Router();
 const productManager = new ProductManager();
@@ -27,18 +27,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
   store: new MongoStore({
-    mongoUrl:DB_URL,
-    ttl:3600
+    mongoUrl: DB_URL,
+    ttl: 3600
   }),
-  secret:"Secret",
-  resave:false,
-  saveUninitialized:false
+  secret: "Secret",
+  resave: false,
+  saveUninitialized: false
 }))
 
 
 //app.use("/api/products/", localRouterProducts);
 //app.use("/api/carts/", localCartsRoute);
-app.use("/api/realtimeproducts",realTimeProducts);
+app.use("/api/realtimeproducts", realTimeProducts);
 app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.use("/api/products", productsRouter);
@@ -52,9 +52,9 @@ app.engine('handlebars', handlebars.engine())
 app.set('view engine', 'handlebars');
 
 const connectMongoDB = async () => {
-  const dataBase= 'ecommerce';
+  const dataBase = 'ecommerce';
   try {
-    await mongoose.connect(DB_URL, {dbName: dataBase });
+    await mongoose.connect(DB_URL, { dbName: dataBase });
     console.log("Conectado a la base de datos 'ecommerce'");
   } catch (error) {
     console.error("No se pudo conectar a la base de datos", error);
@@ -65,7 +65,7 @@ const connectMongoDB = async () => {
 connectMongoDB()
 
 
-const server = app.listen(PORT,()=>console.log("Server listening in", PORT))
+const server = app.listen(PORT, () => console.log("Server listening in", PORT))
 export const io = new Server(server)
 
 io.on('connection', socket => {
@@ -93,26 +93,26 @@ realTimeProducts.get('/', async (req, res) => {
 
 const msg = []
 
-io.on('connection', socket =>{
+io.on('connection', socket => {
 
-    console.log("Mensageria conectada")
+  console.log("Mensageria conectada")
 
-    socket.on('message', async (data) => {
-      const message = new messagesModel({
-        email: data.user,
-        message: data.message,
-      });
-    
-      try {
-        await message.save();
-        console.log('Mensaje guardado correctamente');
-      } catch (error) {
-        console.error('Error al guardar el mensaje:', error);
-      }
-    
-      msg.push(data);
-      io.emit('messageLogs', msg);
+  socket.on('message', async (data) => {
+    const message = new messagesModel({
+      email: data.user,
+      message: data.message,
     });
 
-})  
+    try {
+      await message.save();
+      console.log('Mensaje guardado correctamente');
+    } catch (error) {
+      console.error('Error al guardar el mensaje:', error);
+    }
+
+    msg.push(data);
+    io.emit('messageLogs', msg);
+  });
+
+})
 

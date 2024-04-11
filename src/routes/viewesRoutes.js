@@ -12,6 +12,7 @@ viewesRoutes.get('/chat', (req, res) => {
 });
 
 viewesRoutes.get('/products', auth, async (req, res) => {
+
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
   
@@ -24,7 +25,6 @@ viewesRoutes.get('/products', auth, async (req, res) => {
       const role = req.session.user.role
       const cartId = req.session.user.cartId
 
-      console.log("🚀 ~ viewesRoutes.get ~ user:", user)
       const results = await productsModel.find({})
         .skip((page - 1) * limit)
         .limit(limit)
@@ -58,6 +58,7 @@ viewesRoutes.get('/products', auth, async (req, res) => {
   viewesRoutes.get('/cart/:cid', auth,authUser, async(req, res) => {
 
     const cid = req.params.cid;
+    
   try {
     const cart = await cartsModel.findById(cid).populate('products.product').lean().exec();
     const products = [];

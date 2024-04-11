@@ -1,11 +1,11 @@
 <div>
-    <h1>Chat</h1>
-    <input id="chatbox">
-    <button id="sendButton">Enviar</button>
-    {{#each msg as |obj|}}
-    {{obj.socketid}}: {{obj.message}}
-    {{/each}}
-    <p id="log"></p>
+  <h1>Chat</h1>
+  <input id="chatbox">
+  <button id="sendButton">Enviar</button>
+  {{#each msg as |obj|}}
+  {{obj.socketid}}: {{obj.message}}
+  {{/each}}
+  <p id="log"></p>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

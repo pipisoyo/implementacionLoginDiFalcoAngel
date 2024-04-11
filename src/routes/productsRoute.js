@@ -79,7 +79,7 @@ productsRouter.get("/:_id", async (req, res) => {
     try {
         let id = req.params._id;
         let data = await productManager.getById(id);
-            res.json({ data });
+        res.json({ data });
     } catch (error) {
         console.error("Error al obtener el producto:", error);
         res.status(500).send("Error al obtener el producto");
@@ -91,7 +91,7 @@ productsRouter.post("/", async (req, res) => {
     try {
         const newProduct = req.body;
         let result = await productManager.addProduct(newProduct);
-            res.json({ result });
+        res.json({ result });
         let data = await productManager.getAll();
         io.emit('products', data);
     } catch (error) {
@@ -105,7 +105,7 @@ productsRouter.post("/insert", async (req, res) => {
     try {
         const product = req.body;
         let result = await productManager.addProducts(product);
-            res.json({ result });
+        res.json({ result });
         let data = await productManager.getAll();
         io.emit('products', data);
     } catch (error) {
@@ -120,7 +120,7 @@ productsRouter.put("/:_id", async (req, res) => {
         let id = req.params._id;
         let upDateProduct = req.body;
         let result = await productManager.updateProduct(id, upDateProduct);
-            res.json({ result });
+        res.json({ result });
         let data = await productManager.getAll()
         io.emit('products', data);
     } catch (error) {
@@ -134,7 +134,7 @@ productsRouter.delete("/:_id", async (req, res) => {
     try {
         let id = req.params._id;
         let result = await productManager.delateProduct(id);
-            res.json({ result });
+        res.json({ result });
         let data = await productManager.getAll()
         io.emit('products', data);
     } catch (error) {
@@ -144,5 +144,3 @@ productsRouter.delete("/:_id", async (req, res) => {
 })
 
 export default productsRouter;
-
-//primer

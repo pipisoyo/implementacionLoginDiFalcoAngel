@@ -5,7 +5,7 @@ form.addEventListener("submit", (e) => {
   const data = new FormData(form);
   const obj = {};
   data.forEach((value, key) => (obj[key] = value));
-  //hacer un fetch
+
   fetch("/api/sessions/login", {
     method: "POST",
     body: JSON.stringify(obj),
@@ -15,9 +15,9 @@ form.addEventListener("submit", (e) => {
   }).then((response) => {
     if (response.status === 200) {
       window.location.replace("/products");
-    }else {
-        document.getElementById("errorMessage").innerText = "Error en las credenciales. Inténtalo de nuevo.";
-        document.getElementById("errorMessage").style.display = "block";
-      }
+    } else {
+      document.getElementById("errorMessage").innerText = "Error en las credenciales. Inténtalo de nuevo.";
+      document.getElementById("errorMessage").style.display = "block";
+    }
   });
 });
